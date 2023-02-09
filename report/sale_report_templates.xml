@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="report_saleorder_document" inherit_id="sale.report_saleorder_document">
+        <xpath expr="//td[@name='td_name']" position="inside">
+            <t t-if="line.product_id.bottle_equivalent &gt; 0.0">
+            <i class="fa fa-recycle" style="color:#607568"></i>
+            </t>
+        </xpath>
+
+        <xpath expr="//p[@id='fiscal_position_remark']" position="after">
+            <div id="recycled_product" t-if='doc.bottle_equivalent &gt; 0.0' style="color:#607568" class=" mt-4 p-2 bg-light">
+                <h5 class="align-middle mb-0"><img class=" mr-2" src="/jt_product_repeat/static/src/img/bottle.svg"/>This order re-uses the equivalent of <span t-field="doc.bottle_equivalent" t-options='{"widget": "float", "precision": 0}'/> recycled 1.5l PET bottles.</h5>
+            </div>
+        </xpath>
+    </template>
+
+    <!-- <template id="report_housing_header">
+        <t t-if="not housing_batch" t-set="housing_batch" t-value="doc.housing_batch_id" />
+
+        <div t-if="housing_batch" class="row my-2 py-2 bg-light" id="housing_information">
+            <div class="col-auto">
+                <strong>Housing project:</strong>
+                <p class="m-0" t-field="housing_batch.housing_project_id"/>
+            </div>
+
+            <div class="col-auto">
+                <strong>Housing batch:</strong>
+                <p class="m-0"><i class="fa fa-wrench"></i> <span t-esc="housing_batch.name"/></p>
+            </div>
+
+            <div class="col-auto">
+                <strong>Housing entities:</strong>
+                <ul class="list-unstyled">
+                    <t t-foreach="housing_batch.entity_ids" t-as="entity">
+                        <li><i class="fa fa-home"></i> <span t-esc="entity.name"/></li>
+                    </t>
+                </ul>
+            </div>           
+
+        </div>
+    </template> -->
+
+</odoo>

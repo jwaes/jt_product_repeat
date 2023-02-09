@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<!-- DENSITY -->
+
+    <record id="product_uom_categ_density" model="uom.category">
+        <field name="name">Density</field>
+    </record>
+
+
+    <record id="product_uom_kg_cubic_meter" model="uom.uom">
+        <field name="name">kg/m³</field>
+        <field name="category_id" ref="product_uom_categ_density"/>
+        <field name="factor_inv">1.0</field>
+        <field name="uom_type">reference</field>
+    </record>
+
+</odoo>

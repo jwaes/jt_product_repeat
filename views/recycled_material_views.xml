@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="recycled_material_view_form" model="ir.ui.view">
+        <field name="name">jt.recycled.material.form</field>
+        <field name="model">jt.recycled.material</field>
+        <field name="arch" type="xml">
+            <form string="">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="density"/>
+                        <field name="bottles_per_kg"/>
+                        <field name="percentage_recycled_material" widget="percentage"/>                        
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="recycled_material_view_tree" model="ir.ui.view">
+        <field name="name">jt.recycled.material.tree</field>
+        <field name="model">jt.recycled.material</field>
+        <field name="arch" type="xml">
+            <tree string="Recycled materials">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>    
+
+    <record id="recycled_material_action" model="ir.actions.act_window">
+        <field name="name">Recycled materials</field>
+        <field name="res_model">jt.recycled.material</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html"><p>Configure recycled materials</p></field>
+      </record>
+
+    <menuitem id="menu_recycled_material_config" 
+        name="Recycled materials" 
+        action="recycled_material_action" 
+        groups="stock.group_stock_manager" 
+        parent="stock.menu_stock_config_settings" 
+        sequence="90" />        
+
+</odoo>    
