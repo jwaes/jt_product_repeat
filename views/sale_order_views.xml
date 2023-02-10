@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_jt_product_repeat_sale_order_calculate_recycled_material" model="ir.actions.server">
+        <field name="name">Re-calculate recycled materials</field>
+        <field name="model_id" ref="sale.model_sale_order"/>
+        <field name="binding_model_id" ref="sale.model_sale_order"/>
+        <field name="state">code</field>
+        <field name="code">
+            if records:
+                records._compute_bottle_equivalent()
+        </field>
+    </record>
+    
+</odoo>

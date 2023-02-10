@@ -28,6 +28,7 @@
         'views/product_template_view.xml',
         'views/recycled_material_views.xml',
         'views/res_config_settings_views.xml',
+        'views/sale_order_views.xml',
     ],
     # only loaded in demonstration mode
     'demo': [

@@ -13,10 +13,11 @@ class SaleOrder(models.Model):
 
         for order in self:
             bottles = 0.0
+            _logger.info("┌────────")
             for line in order.order_line:
                 product_bottles = line.product_id.bottle_equivalent
                 line_bottles = product_bottles * line.product_uom_qty
                 bottles += line_bottles
-                _logger.info("%s: %0.2f bottles", line.product_id.name, line_bottles)
-            _logger.info("SO order :  %0.2f bottles", bottles)
+                _logger.info("├─ %s: %0.2f bottles", line.product_id.name, line_bottles)
+            _logger.info("└─> SO order %s:  %0.2f bottles", order.name, bottles)
             order.bottle_equivalent = bottles
