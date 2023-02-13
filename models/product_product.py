@@ -16,10 +16,10 @@ class ProductProduct(models.Model):
             product.bottle_equivalent = product.calculate_product_bottle_equivalent_for_volume(product.volume)
 
     def calculate_product_bottle_equivalent_for_volume(self, volume):
-        self.ensure_one()
         if self.bom_ids:
             for bom in self.bom_ids:
-                return bom._calculate_bottle_equivalent()
+                bom._calculate_bottle_equivalent()
+                return bom.product_id.bottle_equivalent
         elif self.recycled_material_id:
             return self.recycled_material_id.calculate_pet_bottles_equivalent(volume)
         else:
