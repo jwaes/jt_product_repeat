@@ -13,7 +13,8 @@ class MrpBom(models.Model):
     
     @api.depends('product_uom_category_id')
     def _compute_surface_uom(self):
-        self.surface_uom = self.product_uom_category_id.name == 'Surface'
+        for bom in self:
+            bom.surface_uom = bom.product_uom_category_id.name == 'Surface'
 
     @api.onchange('bom_line_ids', 'bom_line_ids.product_id', 'product_uom_id', 'surface')
     def _calculate_bottle_equivalent(self):
