@@ -1,11 +1,11 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8"?>
 <odoo>
     <record id="product_product_tree_view" model="ir.ui.view">
         <field name="model">product.product</field>
         <field name="inherit_id" ref="product.product_product_tree_view" />
         <field name="arch" type="xml">
             <field name="uom_id" position="after">
-                <field name="bottle_equivalent" optional="hide"/>
+                <field name="bottle_equivalent" optional="hide" />
             </field>
         </field>
     </record>
@@ -14,25 +14,38 @@
         <field name="model">product.template</field>
         <field name="inherit_id" ref="product.product_template_form_view" />
         <field name="arch" type="xml">
-            <xpath expr="//div[@name='volume']" position="after">
-                
-                <!-- 
-                <label for="density" attrs="{'invisible':[('product_variant_count', '>', 1), ('is_product_variant', '=', False)]}"/>
-                    <div class="o_row" name="density" attrs="{'invisible':[('product_variant_count', '>', 1), ('is_product_variant', '=', False)]}">
-                        <field name="density" string="Volume" class="oe_inline" attrs="{'required':[('recycled_product','=',True)]}"/>
-                        <field name="density_uom_name"/>
-                    </div> -->
-                <label for="thickness" attrs="{'invisible':[('product_variant_count', '>', 1), ('is_product_variant', '=', False)]}"/>
-                    <div class="o_row" name="thickness" attrs="{'invisible':[('product_variant_count', '>', 1), ('is_product_variant', '=', False)]}">
-                        <field name="thickness" string="Thickness" class="oe_inline" attrs="{'required':[('recycled_material_id','!=',False)]}"/>
-                        mm
+            <xpath expr="//group[@name='inventory']" position="after">
+                <group name="repeat">
+                    <group name="group_repeat" string="Repeat"
+                        attrs="{'invisible': [('type', 'not in', ['product'])]}">
+                        <label for="thickness"
+                            attrs="{'invisible':[('product_variant_count', '>', 1), ('is_product_variant', '=', False)]}" />
+                        <div class="o_row" name="thickness"
+                            attrs="{'invisible':[('product_variant_count', '>', 1), ('is_product_variant', '=', False)]}">
+                            <field name="thickness" string="Thickness" class="oe_inline"
+                                attrs="{'required':[('recycled_material_id','!=',False)]}" /> mm </div>
+                        <field name="recycled_material_id" />
+                        <label for="bottle_equivalent"
+                            attrs="{'invisible':[('product_variant_count', '>', 1), ('is_product_variant', '=', False)]}" />
+                        <div class="o_row" name="bottle_equivalent"
+                            attrs="{'invisible':[('product_variant_count', '>', 1), ('is_product_variant', '=', False)]}">
+                            <field name="bottle_equivalent" string="Equivalent" class="oe_inline"
+                                attrs="{'required':[('recycled_material_id','!=',False)]}" />
+                            bottles </div>
+                    </group>
+                </group>
+            </xpath>
+            <xpath expr="//button[@name='open_pricelist_rules']" position="after">
+                <div class="btn oe_stat_button" attrs="{'invisible':['|',('product_variant_count', '>', 1), ('is_product_variant', '=', False), ('has_bottles', '==', False)],}">
+                    <img class="o_button_icon fa" src="/jt_product_repeat/static/src/img/bottle.svg" alt="bottles" style="width:30px; height:44px"/>
+                    <div class="o_field_widget o_stat_info">
+                        <span class="o_stat_value">
+                            <field name="has_bottles" invisible="1"/>
+                            <field name="bottle_equivalent" t-options='{"widget": "float", "precision": 0}'/>                            
+                        </span>
+                        <span>bottles</span>
                     </div>
-                <field name="recycled_material_id"/>
-                <label for="bottle_equivalent" attrs="{'invisible':[('product_variant_count', '>', 1), ('is_product_variant', '=', False)]}"/>
-                    <div class="o_row" name="bottle_equivalent" attrs="{'invisible':[('product_variant_count', '>', 1), ('is_product_variant', '=', False)]}">
-                        <field name="bottle_equivalent" string="Equivalent" class="oe_inline" attrs="{'required':[('recycled_material_id','!=',False)]}"/>
-                        bottles
-                    </div>                                                 
+                </div>
             </xpath>
         </field>
     </record>

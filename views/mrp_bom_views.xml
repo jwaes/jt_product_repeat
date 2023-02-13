@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_jt_product_repeat_bom_calculate_recycled_material" model="ir.actions.server">
+        <field name="name">Re-calculate recycled materials</field>
+        <field name="model_id" ref="mrp.model_mrp_bom"/>
+        <field name="binding_model_id" ref="mrp.model_mrp_bom"/>
+        <field name="state">code</field>
+        <field name="code">
+            if records:
+                records._calculate_bottle_equivalent()
+        </field>
+    </record>
+    
+    <record id="mrp_bom_form_view" model="ir.ui.view">
+        <field name="model">mrp.bom</field>
+        <field name="inherit_id" ref="mrp.mrp_bom_form_view" />
+        <field name="arch" type="xml">
+            <xpath expr="//div[hasclass('o_row')]" position="after">
+                <field name="surface_uom" invisible="1"/>
+                <label for="surface"/>
+                    <div class="o_row" name="surface">
+                        <field name="surface"/>
+                        <span>m²</span>
+                    </div>                
+            </xpath>
+        </field>
+    </record>
+    
+</odoo>
