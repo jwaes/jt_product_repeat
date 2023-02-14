@@ -8,7 +8,7 @@ class ProductProduct(models.Model):
 
     thickness = fields.Float(string="Thickness")
 
-    bottle_equivalent = fields.Float(compute='_compute_product_bottle_equivalent', string='Bottle Equivalent', store=True, track_visibility='always')
+    bottle_equivalent = fields.Float(compute='_compute_product_bottle_equivalent', string='Bottle Equivalent', store=True)
 
     @api.depends('recycled_material_id', 'recycled_material_id.density', 'recycled_material_id.bottles_per_kg', 'volume')
     def _compute_product_bottle_equivalent(self):
@@ -31,8 +31,9 @@ class ProductProduct(models.Model):
         if self.uom_id:
             if self.surface_uom and self.thickness != 0.0:
                 vol = self.uom_id.factor_inv * (self.thickness / 1000)
-                _logger.info("Surface: %0.2f * %0.2f = %0.2f", self.uom_id.factor_inv, (self.thickness / 1000), vol)                     
+                # _logger.info("Volume: %0.2f * %0.2f = %0.2f", self.uom_id.factor_inv, (self.thickness / 1000), vol)                     
                 self.volume = vol
+                self.calculate_product_weight_for_volume(self.volume)
 
     @api.onchange('volume', 'product_tmpl_id.volume')
     def _update_weight(self):

@@ -35,7 +35,7 @@ class MrpBom(models.Model):
             bom_weight = 0.0
             for bom_line in bom.bom_line_ids:
                 bom_line_product = bom_line.product_id
-                bom_thickness += bom_line_product.thickness
+                bom_thickness += bom_line_product.thickness * bom_line.product_qty
                 _logger.info("├─┬─ %s", bom_line_product.name)
                 thickness_m = bom_line_product.thickness / 1000
                 volume = bom_surface * thickness_m
@@ -51,7 +51,8 @@ class MrpBom(models.Model):
             bom_product.bottle_equivalent = bottles
             bom_product.thickness = bom_thickness
             bom_product.weight = bom_weight
-            bom.product_tmpl_id._compute_bottle_equivalent()
+            bom_product._update_volume()
+            # bom.product_tmpl_id._compute_bottle_equivalent()
             _logger.info("└─> %0.2f bottles, %0.2fmm thickness, %0.2fkg", bottles, bom_thickness, bom_weight)
                 
                 

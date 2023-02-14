@@ -10,7 +10,7 @@ class ProductTemplate(models.Model):
 
     thickness = fields.Float(compute='_compute_thickness', inverse='_set_thickness', string='Thickness')
     
-    bottle_equivalent = fields.Float(compute='_compute_bottle_equivalent', string='Bottle Equivalent', store=True, track_visibility='always')
+    bottle_equivalent = fields.Float(compute='_compute_bottle_equivalent', string='Bottle Equivalent', store=True,)
 
     has_bottles = fields.Char(compute='_compute_has_bottles', string='has_bottles')
     
@@ -34,7 +34,7 @@ class ProductTemplate(models.Model):
             template.thickness = 0.0
 
     
-    @api.depends('recycled_material_id', 'recycled_material_id.density', 'recycled_material_id.bottles_per_kg', 'volume', 'bom_ids')
+    @api.depends('recycled_material_id', 'recycled_material_id.density', 'recycled_material_id.bottles_per_kg', 'volume', 'bom_ids', 'product_variant_ids', 'product_variant_ids.bottle_equivalent')
     def _compute_bottle_equivalent(self):
         unique_variants = self.filtered(lambda template: len(template.product_variant_ids) == 1)
         for template in unique_variants:
