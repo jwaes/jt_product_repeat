@@ -16,15 +16,29 @@ class MrpBom(models.Model):
         for bom in self:
             bom.surface_uom = bom.product_uom_category_id.name == 'Surface'
 
-    @api.onchange('bom_line_ids', 'bom_line_ids.product_id', 'product_uom_id', 'surface')
+    @api.model_create_multi
+    def create(self, vals):
+        res = super(MrpBom, self).create(vals)
+        self._calculate_bottle_equivalent()
+        return res
+
+    def write(self, vals):
+        res = super(MrpBom, self).write(vals)
+        self._calculate_bottle_equivalent()
+        return res
+
+
+    # @api.onchange('bom_line_ids', 'bom_line_ids.product_id', 'product_uom_id', 'surface')
     def _calculate_bottle_equivalent(self):
         for bom in self:
             bottles = 0.0
             bom_product = bom.product_id
+            bom_product_type = "product.product"
             if not bom_product:
                 if bom.product_tmpl_id.product_variant_count == 1 and not bom.product_tmpl_id.has_configurable_attributes:
                     bom_product = bom.product_tmpl_id.product_variant_id
-            _logger.info("┌── BOM for %s", bom_product.name)
+                    bom_product_type = "product.template"
+            _logger.info("┌── BOM for (%s) %s", bom_product_type, bom_product.name)
             bom_surface= 0.0
             if bom.surface_uom:
                 bom_surface = bom.product_uom_id.factor_inv
@@ -47,12 +61,18 @@ class MrpBom(models.Model):
                 _logger.info("│ ├─ %0.4fm^2 * %0.4fm = %0.4fm^3 (%0.2fkg)", bom_surface, thickness_m, volume, bom_line_weight)
                 bom_line_bottles = bom_line_product.calculate_product_bottle_equivalent_for_volume(volume) * bom_line.product_qty
                 bottles += bom_line_bottles
-                _logger.info("│ └─ %0.2f bottles * %0.2f = %0.2f", bom_line_product.bottle_equivalent, bom_line.product_qty, bom_line_bottles)                
-            bom_product.bottle_equivalent = bottles
+                _logger.info("│ └─ %0.2f bottles * %0.2f = %0.2f", bom_line_product.bottle_equivalent, bom_line.product_qty, bom_line_bottles)
+            _logger.info("bottles is %0.2f", bottles)       
+            bom_product.bottle_equivalent = bottles  
+            _logger.info("1 bom_product.bottle_equivalent is %0.2f", bom_product.bottle_equivalent)        
             bom_product.thickness = bom_thickness
+            _logger.info("2 bom_product.bottle_equivalent is %0.2f", bom_product.bottle_equivalent) 
             bom_product.weight = bom_weight
-            bom_product._update_volume()
+            _logger.info("3 bom_product.bottle_equivalent is %0.2f", bom_product.bottle_equivalent) 
+            bom_product.volume = bom_surface * bom_thickness / 1000
+            _logger.info("4 bom_product.bottle_equivalent is %0.2f", bom_product.bottle_equivalent) 
             # bom.product_tmpl_id._compute_bottle_equivalent()
-            _logger.info("└─> %0.2f bottles, %0.2fmm thickness, %0.2fkg", bottles, bom_thickness, bom_weight)
+            # bom_product._compute_product_bottle_equivalent()
+            _logger.info("└─> %0.2f bottles, %0.2fmm thickness, %0.2fm^3, %0.2fkg", bom_product.bottle_equivalent, bom_product.thickness, bom_product.volume, bom_product.weight)
                 
                 

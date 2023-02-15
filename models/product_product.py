@@ -13,37 +13,46 @@ class ProductProduct(models.Model):
     @api.depends('recycled_material_id', 'recycled_material_id.density', 'recycled_material_id.bottles_per_kg', 'volume')
     def _compute_product_bottle_equivalent(self):
         for product in self:
-            product.bottle_equivalent = product.calculate_product_bottle_equivalent_for_volume(product.volume)
+            if not product.bom_ids:
+                equi = product.calculate_product_bottle_equivalent_for_volume(product.volume)
+                _logger.info("equi is %0.4f", equi)
+                product.bottle_equivalent = equi
+            else:
+                _logger.info("passing ... its with boms")                
+                pass
 
     def calculate_product_bottle_equivalent_for_volume(self, volume):
-        if self.bom_ids:
-            for bom in self.bom_ids:
-                bom._calculate_bottle_equivalent()
-                return bom.product_id.bottle_equivalent
-        elif self.recycled_material_id:
-            return self.recycled_material_id.calculate_pet_bottles_equivalent(volume)
-        else:
-            return 0.0
+        self.ensure_one()
+        bottles = 0.0
+        if not self.bom_ids and self.recycled_material_id:
+            bottles = self.recycled_material_id.calculate_pet_bottles_equivalent(volume)
+        return bottles
 
 
     @api.onchange('thickness')
     def _update_volume(self):
-        if self.uom_id:
-            if self.surface_uom and self.thickness != 0.0:
-                vol = self.uom_id.factor_inv * (self.thickness / 1000)
-                # _logger.info("Volume: %0.2f * %0.2f = %0.2f", self.uom_id.factor_inv, (self.thickness / 1000), vol)                     
-                self.volume = vol
-                self.calculate_product_weight_for_volume(self.volume)
+        for prod in self:
+            if prod.uom_id and not prod.bom_ids:
+                if prod.surface_uom and prod.thickness != 0.0:
+                    vol = prod.uom_id.factor_inv * (prod.thickness / 1000)
+                    _logger.info("Volume: %0.2f * %0.4f = %0.4f", self.uom_id.factor_inv, (self.thickness / 1000), vol)                     
+                    prod.volume = vol
+                    _logger.info("set volume")
+                    prod.weight = prod.calculate_product_weight_for_volume(prod.volume)
+                    _logger.info("calculated weight")
 
-    @api.onchange('volume', 'product_tmpl_id.volume')
+    @api.onchange('volume')
     def _update_weight(self):
-        weight = self.calculate_product_weight_for_volume(self.volume)
-        if weight:
-            self.weight = weight
-        else:
-            pass
+        _logger.info("triggered update weight")
+        for prod in self:
+            weight = prod.calculate_product_weight_for_volume(prod.volume)
+            if weight:
+                prod.weight = weight
+            else:
+                pass
 
     def calculate_product_weight_for_volume(self, volume):
+        self.ensure_one()
         if self.uom_id and self.recycled_material_id:
             return self.recycled_material_id.calculate_weight(self.volume)   
         else:

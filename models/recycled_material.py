@@ -58,7 +58,9 @@ class RecycledMaterialCategory(models.Model):
         
         self.ensure_one()
         kg = volume * self.density
-        bottles = kg * self.bottles_per_kg        
+        # _logger.info("%0.4fkg = %0.4f * %0.2fkg/m^3", kg, volume, self.density)
+        bottles = kg * self.bottles_per_kg
+        # _logger.info("%0.4f bottles = %0.4fkg * %0.4f bottles/kg", bottles, kg, self.bottles_per_kg)     
         return bottles
 
     def calculate_weight(self, volume):

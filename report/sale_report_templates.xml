@@ -10,7 +10,7 @@
 
         <xpath expr="//p[@id='fiscal_position_remark']" position="after">
             <div id="recycled_product" t-if='doc.bottle_equivalent &gt; 0.0' style="color:#607568" class=" mt-4 p-2 bg-light">
-                <h5 class="align-middle mb-0"><img class=" mr-2" src="/jt_product_repeat/static/src/img/bottle.svg"/>This order re-uses the equivalent of <span t-field="doc.bottle_equivalent" t-options='{"widget": "float", "precision": 0}'/> recycled 1.5l PET bottles.</h5>
+                <h5 class="align-middle mb-0"><img class=" mr-2" src="/jt_product_repeat/static/src/img/bottle.svg"/>This order uses <span t-field="doc.bottle_equivalent" t-options='{"widget": "float", "precision": 0}'/> recycled 1.5l PET bottles or the equivalent in PET waste.</h5>
             </div>
         </xpath>
     </template>
