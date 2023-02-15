@@ -10,5 +10,24 @@
                 records._compute_bottle_equivalent()
         </field>
     </record>
+
+    <record id="view_order_form" model="ir.ui.view">
+        <field name="name">view_order_form</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button class="btn oe_stat_button" disabled="1" attrs="{'invisible':[('bottle_equivalent', '==', 0.0)],}">
+                    <img class="o_button_icon fa" src="/jt_product_repeat/static/src/img/bottle.svg" alt="bottles" style="width:30px; height:44px"/>
+                    <div class="o_field_widget o_stat_info">
+                        <span>
+                            <field name="bottle_equivalent"/>                            
+                        </span>
+                        <span> bottles</span>
+                    </div>
+                </button>
+            </xpath>
+        </field>
+    </record>    
     
 </odoo>

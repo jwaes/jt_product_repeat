@@ -41,7 +41,7 @@
                 </group>
             </xpath>
             <xpath expr="//button[@name='open_pricelist_rules']" position="after">
-                <div class="btn oe_stat_button" attrs="{'invisible':['|',('product_variant_count', '>', 1), ('is_product_variant', '=', False), ('has_bottles', '==', False)],}">
+                <button class="btn oe_stat_button" disabled="1" attrs="{'invisible':['|',('product_variant_count', '>', 1), ('is_product_variant', '=', False), ('has_bottles', '==', False)],}">
                     <img class="o_button_icon fa" src="/jt_product_repeat/static/src/img/bottle.svg" alt="bottles" style="width:30px; height:44px"/>
                     <div class="o_field_widget o_stat_info">
                         <span class="o_stat_value">
@@ -50,7 +50,7 @@
                         </span>
                         <span>bottles</span>
                     </div>
-                </div>
+                </button>
             </xpath>
         </field>
     </record>
