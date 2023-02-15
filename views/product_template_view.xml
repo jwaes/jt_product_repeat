@@ -23,7 +23,12 @@
                         <div class="o_row" name="thickness"
                             attrs="{'invisible':[('product_variant_count', '>', 1), ('is_product_variant', '=', False)]}">
                             <field name="thickness" string="Thickness" class="oe_inline"
-                                attrs="{'required':[('recycled_material_id','!=',False)]}" /> mm </div>
+                                attrs="{'required':[('recycled_material_id','!=',False)]}" /> mm</div>
+                        <label for="density"
+                            attrs="{'invisible':[('product_variant_count', '>', 1), ('is_product_variant', '=', False)]}" />
+                        <div class="o_row" name="density"
+                            attrs="{'invisible':[('product_variant_count', '>', 1), ('is_product_variant', '=', False)]}">
+                            <field name="density" string="Density" class="oe_inline"/> kg/m³</div>
                         <field name="bom_ids" invisible='1' />
                         <field name="recycled_material_id" />
                         <label for="bottle_equivalent"
@@ -31,8 +36,7 @@
                         <div class="o_row" name="bottle_equivalent"
                             attrs="{'invisible':[('product_variant_count', '>', 1), ('is_product_variant', '=', False)]}">
                             <field name="bottle_equivalent" string="Equivalent" class="oe_inline"
-                                attrs="{'required':[('recycled_material_id','!=',False)]}" />
-                            bottles </div>
+                                attrs="{'required':[('recycled_material_id','!=',False)]}" t-options='{"widget": "float", "precision": 0}'/> bottles</div>
                     </group>
                 </group>
             </xpath>

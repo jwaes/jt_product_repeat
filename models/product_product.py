@@ -8,6 +8,19 @@ class ProductProduct(models.Model):
 
     thickness = fields.Float(string="Thickness")
 
+    density = fields.Float(compute='_compute_density', string='Density', digits="12,4")
+    
+    @api.depends('volume', 'weight', 'recycled_material_id')
+    def _compute_density(self):
+        for prod in self:
+            if prod.recycled_material_id:
+                prod.density = prod.recycled_material_id.density
+            elif prod.volume > 0.0:
+                prod.density = prod.weight / prod.volume
+                _logger.debug("product density = %0.4fkg/m3", prod.density)
+            else:
+                prod.density = 0.0
+
     bottle_equivalent = fields.Float(compute='_compute_product_bottle_equivalent', string='Bottle Equivalent', store=True)
 
     @api.depends('recycled_material_id', 'recycled_material_id.density', 'recycled_material_id.bottles_per_kg', 'volume')
@@ -15,10 +28,8 @@ class ProductProduct(models.Model):
         for product in self:
             if not product.bom_ids:
                 equi = product.calculate_product_bottle_equivalent_for_volume(product.volume)
-                _logger.info("equi is %0.4f", equi)
                 product.bottle_equivalent = equi
-            else:
-                _logger.info("passing ... its with boms")                
+            else:              
                 pass
 
     def calculate_product_bottle_equivalent_for_volume(self, volume):
