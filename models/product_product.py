@@ -6,7 +6,7 @@ _logger = logging.getLogger(__name__)
 class ProductProduct(models.Model):
     _inherit = "product.product"
 
-    thickness = fields.Float(string="Thickness")
+    thickness = fields.Float(string="Thickness", tracking=True,)
 
     density = fields.Float(compute='_compute_density', string='Density', digits="12,4")
     

@@ -41,7 +41,7 @@ class MrpBom(models.Model):
             _logger.info("┌── BOM for (%s) %s", bom_product_type, bom_product.name)
             bom_surface= 0.0
             if bom.surface_uom:
-                bom_surface = bom.product_uom_id.factor_inv
+                bom_surface = bom.product_uom_id.ratio
             if bom.surface != 0.0:
                 bom_surface = bom.surface
             _logger.info("├─ surface: %0.4fm^2", bom_surface)
@@ -49,7 +49,7 @@ class MrpBom(models.Model):
             bom_weight = 0.0
             for bom_line in bom.bom_line_ids:
                 bom_line_product = bom_line.product_id
-                bom_thickness += bom_line_product.thickness * bom_line.product_qty
+                bom_thickness += bom_line_product.thickness
                 _logger.info("├─┬─ %s", bom_line_product.name)
                 thickness_m = bom_line_product.thickness / 1000
                 volume = bom_surface * thickness_m

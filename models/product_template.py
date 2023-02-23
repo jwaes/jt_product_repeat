@@ -6,7 +6,7 @@ _logger = logging.getLogger(__name__)
 class ProductTemplate(models.Model):
     _inherit = "product.template"
 
-    recycled_material_id = fields.Many2one('jt.recycled.material', string="Recycled material")
+    recycled_material_id = fields.Many2one('jt.recycled.material', tracking=True, string="Recycled material")
 
     thickness = fields.Float(compute='_compute_thickness', inverse='_set_thickness', string='Thickness')
 

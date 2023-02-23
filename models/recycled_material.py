@@ -12,11 +12,13 @@ class RecycledMaterialCategory(models.Model):
     _name = 'jt.recycled.material'
     _description = 'Recycled material'
 
+    _inherit = ["mail.thread"]
+
 
     name = fields.Char('Name', required=True)
-    density = fields.Float(string="Density", required=True)
+    density = fields.Float(string="Density", required=True, tracking=True,)
     density_uom_name = fields.Char(string='Density unit of measure label', compute='_compute_density_uom_name')
-    bottles_per_kg = fields.Float(string="Bottles per kg", help="100%% recylced would be about 43 bottles", default=PET_BOTTLES_PER_KG)
+    bottles_per_kg = fields.Float(string="Bottles per kg", help="100%% recylced would be about 43 bottles", tracking=True, default=PET_BOTTLES_PER_KG)
 
     percentage_recycled_material = fields.Float(compute='_compute_precentage_recycled_material', inverse='_inverse_precentage_recycled_material', string='Precentage Recycled Material')
     
