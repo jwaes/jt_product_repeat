@@ -105,8 +105,9 @@ class MrpBom(models.Model):
         bom_thickness = 0.0
         bom_weight = 0.0
         for bom_line in bom.bom_line_ids:
+            bom_line_product = bom_line.product_id
             if not bom_line._skip_bom_line(product):
-                bom_line_product = bom_line.product_id
+                
                 bom_thickness += bom_line_product.thickness
                 _logger.info("├─┬─ %s", bom_line_product.name)
                 thickness_m = bom_line_product.thickness / 1000
