@@ -28,6 +28,24 @@ class MrpBom(models.Model):
         return res
 
 
+    def _skip_bom_line(self, product):
+        # inherited
+        self.ensure_one()
+        if product._name == 'product.template':
+            return False
+        # was ...
+        #return not product._match_all_variant_values(self.bom_product_template_attribute_value_ids)
+
+        #from product:
+        self.ensure_one()
+        # The intersection of the values of the product and those of the line satisfy:
+        # * the number of items equals the number of attributes (since a product cannot
+        #   have multiple values for the same attribute),
+        # * the attributes are a subset of the attributes of the line.
+        # return len(self.product_template_attribute_value_ids & product_template_attribute_value_ids) == len(product_template_attribute_value_ids.attribute_id)
+        return not (set((self.bom_product_template_attribute_value_ids) <= set(product.product_template_attribute_value_ids)))
+
+
     # @api.onchange('bom_line_ids', 'bom_line_ids.product_id', 'product_uom_id', 'surface')
     def _calculate_bottle_equivalent(self):
         for bom in self:
