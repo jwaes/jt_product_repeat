@@ -22,8 +22,8 @@ class MrpBomLine(models.Model):
         #   have multiple values for the same attribute),
         # * the attributes are a subset of the attributes of the line.
         # return len(self.product_template_attribute_value_ids & product_template_attribute_value_ids) == len(product_template_attribute_value_ids.attribute_id)
-        _logger.info("bom line attributes: %s", self.bom_product_template_attribute_value_ids)
-        _logger.info("product attributes: %s", product.product_template_attribute_value_ids)
+        _logger.debug("bom line attributes: %s", self.bom_product_template_attribute_value_ids)
+        _logger.debug("product attributes: %s", product.product_template_attribute_value_ids)
         return not (set(self.bom_product_template_attribute_value_ids) <= set(product.product_template_attribute_value_ids))    
 
 class MrpBom(models.Model):
@@ -153,7 +153,7 @@ class MrpBom(models.Model):
                 bottles += bom_line_bottles
                 _logger.info("│ └─ %0.2f bottles * %0.2f = %0.2f", bom_line_product.bottle_equivalent, bom_line.product_qty, bom_line_bottles)
             else:
-               _logger.info("├─XXXX %s", bom_line_product.name)    
+               _logger.info("├─XXXX [%s] %s", bom_line_product.default_code, bom_line_product.name)
         bom_product.bottle_equivalent = bottles    
         bom_product.thickness = bom_thickness
         bom_product.weight = bom_weight
