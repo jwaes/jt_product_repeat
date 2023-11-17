@@ -22,8 +22,8 @@ class MrpBomLine(models.Model):
         #   have multiple values for the same attribute),
         # * the attributes are a subset of the attributes of the line.
         # return len(self.product_template_attribute_value_ids & product_template_attribute_value_ids) == len(product_template_attribute_value_ids.attribute_id)
-        _logger.debug("bom line attributes: %s", self.bom_product_template_attribute_value_ids)
-        _logger.debug("product attributes: %s", product.product_template_attribute_value_ids)
+        _logger.info("bom line attributes: %s", self.bom_product_template_attribute_value_ids)
+        _logger.info("product attributes: %s", product.product_template_attribute_value_ids)
         return not (set(self.bom_product_template_attribute_value_ids) <= set(product.product_template_attribute_value_ids))    
 
 class MrpBom(models.Model):
