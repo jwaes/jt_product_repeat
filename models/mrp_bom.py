@@ -95,7 +95,7 @@ class MrpBom(models.Model):
         #     if bom.product_tmpl_id.product_variant_count == 1 and not bom.product_tmpl_id.has_configurable_attributes:
         #         bom_product = bom.product_tmpl_id.product_variant_id
         #         bom_product_type = "product.template"
-        _logger.info("┌── BOM for %s", bom_product.name)
+        _logger.info("┌── BOM for [%s] %s", bom_product.default_code, bom_product.name)
         bom_surface= 0.0
         if bom.surface_uom:
             bom_surface = bom.product_uom_id.ratio
@@ -106,10 +106,10 @@ class MrpBom(models.Model):
         bom_weight = 0.0
         for bom_line in bom.bom_line_ids:
             bom_line_product = bom_line.product_id
-            if not bom_line._skip_bom_line(product):
+            if not bom_line._skip_bom_line(bom_product):
                 
                 bom_thickness += bom_line_product.thickness
-                _logger.info("├─┬─ %s", bom_line_product.name)
+                _logger.info("├─┬─ [%s] %s", bom_line_product.default_code, bom_line_product.name)
                 thickness_m = bom_line_product.thickness / 1000
                 volume = bom_surface * thickness_m
                 # if volume:
