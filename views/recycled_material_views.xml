@@ -1,65 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <record id="recycled_material_view_form" model="ir.ui.view">
-        <field name="name">jt.recycled.material.form</field>
-        <field name="model">jt.recycled.material</field>
-        <field name="arch" type="xml">
-            <form string="">
-                <sheet>
-                    <div class="oe_button_box" name="button_box">
-                        <button class="oe_stat_button"
-                            name="open_recycled_material_products"
-                            icon="fa-th-list"
-                            type="object">
-                            <div class="o_field_widget o_stat_info">
-                                <span class="o_stat_value">
-                                    <field name="product_template_count" />
-                                </span>
-                                <span attrs="{'invisible': [('product_template_count', '=', 1)]}">
-                                 Products
-                             </span>
-                                <span attrs="{'invisible': [('product_template_count', '!=', 1)]}">
-                                 Product
-                             </span>
-                            </div>
-                        </button>   
-                    </div>
-                    <div class="oe_title">
-                        <label for="name" string="Recycled material"/>
-                        <h1><field name="name" placeholder="e.g. Eco foam"/></h1>
-                    </div>                                        
-                    <group>
-                        <field name="density"/>                        
-                        <field name="bottles_per_kg"/>
-                        <field name="percentage_recycled_material" widget="percentage"/>                                                
-                    </group>
-                </sheet>
-            </form>
-        </field>
-    </record>
-
-    <record id="recycled_material_view_tree" model="ir.ui.view">
-        <field name="name">jt.recycled.material.tree</field>
-        <field name="model">jt.recycled.material</field>
-        <field name="arch" type="xml">
-            <tree string="Recycled materials">
-                <field name="name"/>
-            </tree>
-        </field>
-    </record>    
-
-    <record id="recycled_material_action" model="ir.actions.act_window">
-        <field name="name">Recycled materials</field>
-        <field name="res_model">jt.recycled.material</field>
-        <field name="view_mode">tree,form</field>
-        <field name="help" type="html"><p>Configure recycled materials</p></field>
-      </record>
-
-    <menuitem id="menu_recycled_material_config" 
-        name="Recycled materials" 
-        action="recycled_material_action" 
-        groups="stock.group_stock_manager" 
-        parent="stock.menu_stock_config_settings" 
-        sequence="90" />        
-
-</odoo>    
+ <record id="recycled_material_view_form" model="ir.ui.view">
+  <field name="name">jt.recycled.material.form</field>
+  <field name="model">jt.recycled.material</field>
+  <field name="arch" type="xml">
+   <form string="">
+    <sheet>
+     <div class="oe_button_box" name="button_box">
+      <button class="oe_stat_button" icon="fa-th-list" name="open_recycled_material_products" type="object">
+       <div class="o_field_widget o_stat_info">
+        <span class="o_stat_value">
+         <field name="product_template_count"/>
+        </span>
+        <span invisible="product_template_count == 1">
+         Products
+        </span>
+        <span invisible="product_template_count != 1">
+         Product
+        </span>
+       </div>
+      </button>
+     </div>
+     <div class="oe_title">
+      <label for="name" string="Recycled material"/>
+      <h1>
+       <field name="name" placeholder="e.g. Eco foam"/>
+      </h1>
+     </div>
+     <group>
+      <field name="density"/>
+      <field name="bottles_per_kg"/>
+      <field name="percentage_recycled_material" widget="percentage"/>
+     </group>
+    </sheet>
+   </form></field>
+ </record>
+ <record id="recycled_material_view_tree" model="ir.ui.view">
+  <field name="name">jt.recycled.material.tree</field>
+  <field name="model">jt.recycled.material</field>
+  <field name="arch" type="xml">
+   <tree string="Recycled materials">
+    <field name="name"/>
+   </tree></field>
+ </record>
+ <record id="recycled_material_action" model="ir.actions.act_window">
+  <field name="name">Recycled materials</field>
+  <field name="res_model">jt.recycled.material</field>
+  <field name="view_mode">tree,form</field>
+  <field name="help" type="html">
+   <p>
+    Configure recycled materials
+   </p></field>
+ </record>
+ <menuitem action="recycled_material_action" groups="stock.group_stock_manager" id="menu_recycled_material_config" name="Recycled materials" parent="stock.menu_stock_config_settings" sequence="90"/>
+</odoo>

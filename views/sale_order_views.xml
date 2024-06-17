@@ -1,33 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <record id="action_jt_product_repeat_sale_order_calculate_recycled_material" model="ir.actions.server">
-        <field name="name">Re-calculate recycled materials</field>
-        <field name="model_id" ref="sale.model_sale_order"/>
-        <field name="binding_model_id" ref="sale.model_sale_order"/>
-        <field name="state">code</field>
-        <field name="code">
-            if records:
-                records._compute_bottle_equivalent()
-        </field>
-    </record>
-
-    <record id="view_order_form" model="ir.ui.view">
-        <field name="name">view_order_form</field>
-        <field name="model">sale.order</field>
-        <field name="inherit_id" ref="sale.view_order_form" />
-        <field name="arch" type="xml">
-            <xpath expr="//div[@name='button_box']" position="inside">
-                <button class="btn oe_stat_button" disabled="1" attrs="{'invisible':[('bottle_equivalent', '==', 0.0)],}">
-                    <img class="o_button_icon fa" src="/jt_product_repeat/static/src/img/bottle.svg" alt="bottles" style="width:30px; height:44px"/>
-                    <div class="o_field_widget o_stat_info">
-                        <span class="o_stat_value">
-                            <field name="bottle_equivalent"/>                            
-                        </span>
-                        <span>bottles</span>
-                    </div>                  
-                </button>
-            </xpath>
-        </field>
-    </record>    
-    
+ <record id="action_jt_product_repeat_sale_order_calculate_recycled_material" model="ir.actions.server">
+  <field name="name">Re-calculate recycled materials</field>
+  <field name="model_id" ref="sale.model_sale_order"/>
+  <field name="binding_model_id" ref="sale.model_sale_order"/>
+  <field name="state">code</field>
+  <field name="code">if records:
+                records._compute_bottle_equivalent()</field>
+ </record>
+ <record id="view_order_form" model="ir.ui.view">
+  <field name="name">view_order_form</field>
+  <field name="model">sale.order</field>
+  <field name="inherit_id" ref="sale.view_order_form"/>
+  <field name="arch" type="xml">
+   <xpath expr="//div[@name='button_box']" position="inside">
+    <button class="btn oe_stat_button" disabled="1" invisible="bottle_equivalent == 0.0">
+     <img alt="bottles" class="o_button_icon fa" src="/jt_product_repeat/static/src/img/bottle.svg" style="width:30px; height:44px"/>
+     <div class="o_field_widget o_stat_info">
+      <span class="o_stat_value">
+       <field name="bottle_equivalent"/>
+      </span>
+      <span>
+       bottles
+      </span>
+     </div>
+    </button>
+   </xpath></field>
+ </record>
 </odoo>
