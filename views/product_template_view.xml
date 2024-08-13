@@ -1,59 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
- <record id="product_product_tree_view" model="ir.ui.view">
-  <field name="model">product.product</field>
-  <field name="inherit_id" ref="product.product_product_tree_view"/>
-  <field name="arch" type="xml">
-   <field name="uom_id" position="after">
-    <field name="bottle_equivalent" optional="hide"/></field></field>
- </record>
- <record id="product_template_form_view" model="ir.ui.view">
-  <field name="model">product.template</field>
-  <field name="inherit_id" ref="product.product_template_form_view"/>
-  <field name="arch" type="xml">
-   <xpath expr="//group[@name='inventory']" position="after">
-    <group name="repeat">
-     <group invisible="type not in ['product']" name="group_repeat" string="Repeat">
-      <label for="thickness" invisible="product_variant_count > 1 and is_product_variant == False"/>
-      <div class="o_row" invisible="product_variant_count > 1 and is_product_variant == False" name="thickness">
-       <field class="oe_inline" name="thickness" required="recycled_material_id != False" string="Thickness"/>
-       mm
-      </div>
-      <label for="density" invisible="product_variant_count > 1 and is_product_variant == False"/>
-      <div class="o_row" invisible="product_variant_count > 1 and is_product_variant == False" name="density">
-       <field class="oe_inline" name="density" string="Density"/>
-       kg/m³
-      </div>
-      <field invisible="1" name="bom_ids"/>
-      <field name="recycled_material_id"/>
-      <label for="bottle_equivalent" invisible="product_variant_count > 1 and is_product_variant == False"/>
-      <div class="o_row" invisible="product_variant_count > 1 and is_product_variant == False" name="bottle_equivalent">
-       <field class="oe_inline" name="bottle_equivalent" required="recycled_material_id != False" string="Equivalent" t-options='{"widget": "float", "precision": 0}'/>
-       bottles
-      </div>
-     </group>
-    </group>
-   </xpath>
-   <xpath expr="//button[@name='open_pricelist_rules']" position="after">
-    <button class="btn oe_stat_button" disabled="1" invisible="product_variant_count > 1 or is_product_variant == False and has_bottles == False">
-     <img alt="bottles" class="o_button_icon fa" src="/jt_product_repeat/static/src/img/bottle.svg" style="width:30px; height:44px"/>
-     <div class="o_field_widget o_stat_info">
-      <span class="o_stat_value">
-       <field invisible="1" name="has_bottles"/>
-       <field name="bottle_equivalent" t-options='{"widget": "float", "precision": 0}'/>
-      </span>
-      <span>
-       bottles
-      </span>
-     </div>
-    </button>
-   </xpath></field>
- </record>
- <record id="product_search_form_view" model="ir.ui.view">
-  <field name="model">product.product</field>
-  <field name="inherit_id" ref="product.product_search_form_view"/>
-  <field name="arch" type="xml">
-   <field name="pricelist_id" position="after">
-    <field name="recycled_material_id"/></field></field>
- </record>
+   <record id="product_product_tree_view" model="ir.ui.view">
+      <field name="model">product.product</field>
+      <field name="inherit_id" ref="product.product_product_tree_view" />
+      <field name="arch" type="xml">
+         <field name="uom_id" position="after">
+            <field name="bottle_equivalent" optional="hide" />
+         </field>
+      </field>
+   </record>
+   <record id="product_template_form_view" model="ir.ui.view">
+      <field name="model">product.template</field>
+      <field name="inherit_id" ref="product.product_template_form_view" />
+      <field name="arch" type="xml">
+         <xpath expr="//group[@name='inventory']" position="after">
+            <group name="repeat">
+               <group invisible="type not in ['product']" name="group_repeat" string="Repeat">
+                  <label for="thickness"
+                     invisible="product_variant_count > 1 and is_product_variant == False" />
+                  <div class="o_row"
+                     invisible="product_variant_count > 1 and is_product_variant == False"
+                     name="thickness">
+                     <field class="oe_inline" name="thickness"
+                        required="recycled_material_id != False" string="Thickness" /> mm </div>
+                  <label for="density"
+                     invisible="product_variant_count > 1 and is_product_variant == False" />
+                  <div class="o_row"
+                     invisible="product_variant_count > 1 and is_product_variant == False"
+                     name="density">
+                     <field class="oe_inline" name="density" string="Density" /> kg/m³ </div>
+                  <field invisible="1" name="bom_ids" />
+                  <field name="recycled_material_id" />
+                  <label for="bottle_equivalent"
+                     invisible="product_variant_count > 1 and is_product_variant == False" />
+                  <div class="o_row"
+                     invisible="product_variant_count > 1 and is_product_variant == False"
+                     name="bottle_equivalent">
+                     <field class="oe_inline" name="bottle_equivalent"
+                        required="recycled_material_id != False" string="Equivalent"
+                        t-options='{"widget": "float", "precision": 0}' /> bottles </div>
+               </group>
+            </group>
+         </xpath>
+         <xpath expr="//button[@name='open_pricelist_rules']" position="after">
+            <button class="btn oe_stat_button" disabled="1"
+               invisible="product_variant_count > 1 or is_product_variant == False and has_bottles == False">
+               <img alt="bottles" class="o_button_icon fa"
+                  src="/jt_product_repeat/static/src/img/bottle.svg" style="width:30px; height:44px" />
+               <div class="o_field_widget o_stat_info">
+                  <span class="o_stat_value">
+                     <field invisible="1" name="has_bottles" />
+                     <field name="bottle_equivalent" t-options='{"widget": "float", "precision": 0}' />
+                  </span>
+                  <span>
+                     bottles
+                  </span>
+               </div>
+            </button>
+         </xpath>
+      </field>
+   </record>
+   <!-- <record id="product_search_form_view" model="ir.ui.view">
+      <field name="model">product.product</field>
+      <field name="inherit_id" ref="product.product_search_form_view" />
+      <field name="arch" type="xml">
+         <field name="pricelist_id" position="after">
+            <field name="recycled_material_id" />
+         </field>
+      </field>
+   </record> -->
 </odoo>

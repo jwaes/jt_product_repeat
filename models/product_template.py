@@ -69,7 +69,7 @@ class ProductTemplate(models.Model):
     #                 _logger.info("Volume: %0.3fm^2 * %0.6fm = %0.4fm^3", tmpl.uom_id.factor_inv, thickness_m, vol)
     #                 tmpl.volume = vol
 
-    @api.onchange('volume','recycled_material_id', 'product_variant_ids', 'product_variant_ids.volume')                
+    @api.onchange('volume','recycled_material_id', 'product_variant_ids')                
     def _update_weight(self):
         _logger.info("triggered template update weight")
         unique_variants = self.filtered(lambda template: len(template.product_variant_ids) == 1)
