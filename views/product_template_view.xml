@@ -37,8 +37,8 @@
                      invisible="product_variant_count > 1 and is_product_variant == False"
                      name="bottle_equivalent">
                      <field class="oe_inline" name="bottle_equivalent"
-                        required="recycled_material_id != False" string="Equivalent"
-                        t-options='{"widget": "float", "precision": 0}' /> bottles </div>
+                        required="recycled_material_id" string="Equivalent"
+                       /> bottles </div>
                </group>
             </group>
          </xpath>
@@ -50,7 +50,7 @@
                <div class="o_field_widget o_stat_info">
                   <span class="o_stat_value">
                      <field invisible="1" name="has_bottles" />
-                     <field name="bottle_equivalent" t-options='{"widget": "float", "precision": 0}' />
+                     <field name="bottle_equivalent"/>
                   </span>
                   <span>
                      bottles
