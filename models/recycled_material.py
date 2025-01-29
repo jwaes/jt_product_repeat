@@ -76,8 +76,8 @@ class RecycledMaterialCategory(models.Model):
             'name': 'Products',
             'res_model': 'product.template',
             'type': 'ir.actions.act_window',
-            'view_mode': 'tree,form',
-            # 'views': [(self.env.ref('jt_mrp_housing.housing_batch_view_tree').id, 'tree'), (False, 'form')],
+            'view_mode': 'list,form',
+            # 'views': [(self.env.ref('jt_mrp_housing.housing_batch_view_tree').id, 'list'), (False, 'form')],
             'context': {
                 'recycled_material_id': self.id,
             },

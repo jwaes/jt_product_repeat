@@ -39,14 +39,14 @@
   <field name="name">jt.recycled.material.tree</field>
   <field name="model">jt.recycled.material</field>
   <field name="arch" type="xml">
-   <tree string="Recycled materials">
+   <list string="Recycled materials">
     <field name="name"/>
-   </tree></field>
+   </list></field>
  </record>
  <record id="recycled_material_action" model="ir.actions.act_window">
   <field name="name">Recycled materials</field>
   <field name="res_model">jt.recycled.material</field>
-  <field name="view_mode">tree,form</field>
+  <field name="view_mode">list,form</field>
   <field name="help" type="html">
    <p>
     Configure recycled materials
