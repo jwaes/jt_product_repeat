@@ -29,7 +29,6 @@
                      invisible="product_variant_count > 1 and is_product_variant == False"
                      name="density">
                      <field class="oe_inline" name="density" string="Density" /> kg/m³ </div>
-                  <field invisible="1" name="bom_ids" />
                   <field name="recycled_material_id" />
                   <label for="bottle_equivalent"
                      invisible="product_variant_count > 1 and is_product_variant == False" />
@@ -49,7 +48,6 @@
                   src="/jt_product_repeat/static/src/img/bottle.svg" style="width:30px; height:44px" />
                <div class="o_field_widget o_stat_info">
                   <span class="o_stat_value">
-                     <field invisible="1" name="has_bottles" />
                      <field name="bottle_equivalent"/>
                   </span>
                   <span>

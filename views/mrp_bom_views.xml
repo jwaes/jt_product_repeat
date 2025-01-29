@@ -16,7 +16,6 @@
         <field name="inherit_id" ref="mrp.mrp_bom_form_view" />
         <field name="arch" type="xml">
             <xpath expr="//div[hasclass('o_row')]" position="after">
-                <field name="surface_uom" invisible="1"/>
                 <label for="surface"/>
                     <div class="o_row" name="surface">
                         <field name="surface"/>
