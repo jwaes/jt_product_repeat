@@ -7,7 +7,7 @@ _logger = logging.getLogger(__name__)
 class MrpBomLine(models.Model):
     _inherit = 'mrp.bom.line'
 
-    def _skip_bom_line(self, product):
+    def _skip_bom_line(self, product, never_attribute_values=False):
         # inherited
         self.ensure_one()
         if product._name == 'product.template':
